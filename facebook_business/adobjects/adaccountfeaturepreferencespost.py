@@ -5,6 +5,10 @@
 # LICENSE file in the root directory of this source tree.
 
 from facebook_business.adobjects.abstractobject import AbstractObject
+from facebook_business.adobjects.abstractcrudobject import AbstractCrudObject
+from facebook_business.adobjects.objectparser import ObjectParser
+from facebook_business.api import FacebookRequest
+from facebook_business.typechecker import TypeChecker
 
 """
 This class is auto-generated.
@@ -14,24 +18,19 @@ github and we'll fix in our codegen framework. We'll not be able to accept
 pull request for this class.
 """
 
-class IGShoppingReviewStatus(
-    AbstractObject,
+class AdAccountFeaturePreferencesPost(
+    AbstractCrudObject,
 ):
 
-    def __init__(self, api=None):
-        super(IGShoppingReviewStatus, self).__init__()
-        self._isIGShoppingReviewStatus = True
-        self._api = api
+    def __init__(self, fbid=None, parent_id=None, api=None):
+        self._isAdAccountFeaturePreferencesPost = True
+        super(AdAccountFeaturePreferencesPost, self).__init__(fbid, parent_id, api)
 
     class Field(AbstractObject.Field):
-        onsite_eligibility = 'onsite_eligibility'
-        reasons = 'reasons'
-        status = 'status'
+        id = 'id'
 
     _field_types = {
-        'onsite_eligibility': 'IGShoppingReviewStatusOnsiteEligibility',
-        'reasons': 'list<IGShoppingReviewStatusReasonWithHelpMessage>',
-        'status': 'string',
+        'id': 'string',
     }
     @classmethod
     def _get_field_enum_info(cls):

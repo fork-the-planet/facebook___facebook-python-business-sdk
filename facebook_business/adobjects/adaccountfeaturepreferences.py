@@ -18,43 +18,35 @@ github and we'll fix in our codegen framework. We'll not be able to accept
 pull request for this class.
 """
 
-class AudioIsrc(
+class AdAccountFeaturePreferences(
     AbstractCrudObject,
 ):
 
     def __init__(self, fbid=None, parent_id=None, api=None):
-        self._isAudioIsrc = True
-        super(AudioIsrc, self).__init__(fbid, parent_id, api)
+        self._isAdAccountFeaturePreferences = True
+        super(AdAccountFeaturePreferences, self).__init__(fbid, parent_id, api)
 
     class Field(AbstractObject.Field):
-        all_kg_featured_artists = 'all_kg_featured_artists'
-        all_kg_main_artists = 'all_kg_main_artists'
-        artist_profile_picture_url = 'artist_profile_picture_url'
-        canonical_audio_asset = 'canonical_audio_asset'
         id = 'id'
-        isrc = 'isrc'
-        publishing_rights_data = 'publishing_rights_data'
-        top_searchable_artist_id = 'top_searchable_artist_id'
-        top_searchable_artist_name = 'top_searchable_artist_name'
-        top_searchable_artist_profile_pic_url = 'top_searchable_artist_profile_pic_url'
 
-    def api_get(self, fields=None, params=None, batch=None, success=None, failure=None, pending=False):
+    def genpost(self, fields=None, params=None, batch=None, success=None, failure=None, pending=False):
         from facebook_business.utils import api_utils
         if batch is None and (success is not None or failure is not None):
           api_utils.warning('`success` and `failure` callback only work for batch call.')
+        from facebook_business.adobjects.adaccountfeaturepreferencespost import AdAccountFeaturePreferencesPost
         param_types = {
         }
         enums = {
         }
         request = FacebookRequest(
             node_id=self['id'],
-            method='GET',
-            endpoint='/',
+            method='POST',
+            endpoint='/feature_preferences',
             api=self._api,
             param_checker=TypeChecker(param_types, enums),
-            target_class=AudioIsrc,
-            api_type='NODE',
-            response_parser=ObjectParser(reuse_object=self),
+            target_class=AdAccountFeaturePreferencesPost,
+            api_type='EDGE',
+            response_parser=ObjectParser(target_class=AdAccountFeaturePreferencesPost, api=self._api),
         )
         request.add_params(params)
         request.add_fields(fields)
@@ -69,16 +61,7 @@ class AudioIsrc(
             return request.execute()
 
     _field_types = {
-        'all_kg_featured_artists': 'string',
-        'all_kg_main_artists': 'string',
-        'artist_profile_picture_url': 'string',
-        'canonical_audio_asset': 'AudioAsset',
         'id': 'string',
-        'isrc': 'string',
-        'publishing_rights_data': 'Object',
-        'top_searchable_artist_id': 'string',
-        'top_searchable_artist_name': 'string',
-        'top_searchable_artist_profile_pic_url': 'string',
     }
     @classmethod
     def _get_field_enum_info(cls):
